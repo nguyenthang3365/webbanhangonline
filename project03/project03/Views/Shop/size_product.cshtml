@@ -1,0 +1,46 @@
+﻿@model IEnumerable<project03.Models.entiy.KICHTHUOC>
+
+@{
+    Layout = null;
+}
+
+<style>
+/*    span.size {
+        padding:10px;
+        border:1px solid gray;
+    }
+        span.size:active {
+            background: yellow;
+            cursor: pointer;
+        }*/
+    .selected {
+        background-color: yellow;
+    }
+
+    .size {
+        padding: 5px;
+        margin: 5px;
+        cursor: pointer;
+        border:1px solid black;
+    }
+</style>
+@foreach (var item in Model)
+{
+    <span class="size" onclick="changeBackgroundColor(this)">@item.TENKICHTHUOC inch</span>
+}
+<script>
+    function changeBackgroundColor(element) {
+        // Lấy tất cả các thẻ span có class 'size'
+        var spans = document.querySelectorAll('.size');
+
+        // Lặp qua từng thẻ span và đặt màu nền về màu trắng
+        for (var i = 0; i < spans.length; i++)
+        {
+            spans[i].classList.remove('selected');
+        }
+
+        // Đặt màu nền của thẻ span được click về màu vàng
+        element.classList.add('selected');
+    }
+</script>
+

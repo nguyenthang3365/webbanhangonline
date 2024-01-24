@@ -1,0 +1,109 @@
+﻿@model IEnumerable<project03.Models.entiy.two>
+
+
+@{
+    ViewBag.Title = "show_card";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"><b>Tên sản phẩm</b></div>
+        <div class="col-sm-3"><b>Giá</b></div>
+        <div class="col-sm-1"><b>Ảnh</b></div>
+        <div class="col-sm-2"><b>Số Lượng</b></div>
+        <div class="col-sm-1"><b>Action</b></div>
+        <div class="col-sm-1"><b>total_item</b></div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row">
+
+            <div class="col-sm-3">@item.name</div>
+            <div class="col-sm-3">@item.gia</div>
+            <div class="col-sm-1"><img src="~/Content/images/@item.anh" alt="Alternate Text" /></div>
+            <div class="col-sm-2">
+                <form action="/shop/update_soluong" method="post">
+                    <input type="text" hidden name="IDHANG" value="@item.id_hang" />
+                    <input type="text" hidden name="IDSANPHAM" value="@item.id_sp" />
+                    <input min="1" style="width:50%" type="number" name="SOLUONG" value="@item.soluong" />
+                    <input type="submit" value="update" />
+                </form>
+            </div>
+            <div class="col-sm-1">
+                <form action="/shop/delete_item_cart" method="post">
+                    <input type="text" hidden name="IDHANG" value="@item.id_hang" />
+                    <input type="submit" value="delete" />
+                </form>
+            </div>
+            <div class="col-sm-1 total_item"><b> @(item.gia * item.soluong) </b></div>
+        </div>
+    }
+ </div>
+@*phần thanh toán*@
+<div style="margin-top:10%;line-height:300%" class="Container bg-info">
+    <div class="row">
+        <div class="col-sm-6 ">
+            <b>Thanh Tien</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <b>Tong tien hang</b>
+        </div>
+        <div id="total_all_item" class=" col-sm-3">
+
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-3">
+            <b>Phi van chuyen</b>
+        </div>
+        <div class=" col-sm-3">
+            <b>FreeShip</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 ">
+            <b>Vat</b>
+        </div>
+        <div class="col-sm-3">
+            <b> 10%</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 ">
+            <b>Tong thanh toan</b>
+        </div>
+        <div id="sum_thanh_toan" class="border-bottom col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 ">
+            @if (int.Parse(Session["sum_item_car"].ToString()) > 0)
+            {
+                <p style="color: white"> <button class="btn btn-success"> @Html.ActionLink("Thanh toan", "thanhtoan", "shop") </button> </p>
+            }
+        </div>
+    </div>
+</div>
+@*end phần thanh toán*@
+<script>
+    function tinhtien() {
+        var total_all_item = $(".total_item");
+        var s = 0;
+        for (var i = 0; i < total_all_item.length; i++) {
+            s = s + Number(total_all_item[i].innerText);
+        }
+        $("#total_all_item").html("<b>" + s + "vnd</b>")
+        //thanh toan
+        $("#sum_thanh_toan").html("<b>" + s + "vnd</b>")
+
+
+    }
+    tinhtien();
+
+</script>
+
+

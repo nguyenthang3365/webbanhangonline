@@ -1,0 +1,101 @@
+﻿@model project03.Models.entiy.preview
+@{
+    ViewBag.Title = "Detail_product";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+
+<h3><b>Chi tiết sản phẩm</b></h3>
+
+
+<!-- Product Image and Description -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <img style="width:100%" src="~/Content/images/@Model.sanpham.ANH" alt="Product Image" class="img-responsive">
+            <p><b>kích thước</b></p>
+            <div> @Html.Action("size_product", "Shop", new { id = Model.sanpham.IDSANPHAM })</div>
+        </div>
+        <div class="col-md-9">
+            <h3><b>@Model.sanpham.TENHANG</b></h3>
+            @if (Model.sanpham.KHUYENMAI == 0)
+            {
+
+                {
+                    double? gia = @Model.sanpham.GIA;
+                    string formattedGia = gia?.ToString("N0"); // Chuyển đổi và định dạng giá
+                    <p class="h4"><strong>Price:</strong>   @formattedGia VNĐ</p>
+                }
+
+
+            }
+            else
+            {
+                <p class="h4"><strong>Price:</strong> <strike>@Model.sanpham.GIA</strike>@Model.sanpham.KHUYENMAI VNĐ</p>
+            }
+            <a href="/Shop/cart?item=@Model.sanpham.IDSANPHAM" class="btn btn-primary btn-lg">Mua ngay</a>
+            <h3><p class="h4"><b>Thông tin sản phẩm</b></p></h3>
+            <p class="h4">@Html.Raw(@Model.sanpham.MOTA)</p>
+        </div>
+    </div>
+</div>
+<!-- Comments Section -->
+<!-- Comments Form -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="/shop/post_comment" method="post">
+                <div class="form-group">
+                    <label for="comment">bình luận <span class="text-danger">@TempData["err_comment"]</span></label>
+                    <input name="IDSANPHAM" value="@Model.sanpham.IDSANPHAM" hidden />
+                    <textarea style="width:25%" name="NOIDUNGBINHLUAN" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Đánh Giá</label>
+                    <input style="width:5%" name="DANHGIA" value="0" max="5" min="0" type="number" />
+                    <span class="glyphicon glyphicon-star text-warning"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Gửi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Comments List -->
+    <div class="row">
+        <div class="col-md-12">         
+            <ul class="list-unstyled">
+                @foreach (var item in Model.binhluans)
+                {
+                    <li class="media">
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                @foreach (var a in ViewBag.user)
+                                {
+                                    if (a.IDTAIKHOAN == item.IDTAIKHOAN)
+                                    {
+                                        @a.TENTAIKHOAN
+                                    }
+                                }
+                            </h4>
+                            <p class="comment-date">@item.NGAYBINHLUAN</p>
+                            <p>@item.NOIDUNGBINHLUAN</p>
+                            <p>
+                                @for (int i = 1; i <= item.DANHGIA; i++)
+                                {
+                                    <span class="glyphicon glyphicon-star text-warning"></span>
+                                }
+                            </p>                           
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    
+    <div class="row">
+        <h4><b>sản phẩm liên quan</b></h4>
+        @Html.Action("sanphamlienquan", "Shop", new { id = Model.sanpham.IDLOAI });
+    </div>
+</div>
+
+
+

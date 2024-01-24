@@ -1,0 +1,129 @@
+﻿@model project03.Models.entiy.SANPHAM
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<h2>Thêm Sản Phẩm</h2>
+<div class="ml-5">
+    @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <span>*</span>
+                @Html.LabelFor(model => model.IDLOAI, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("SelectedMaLoai", ViewBag.OtherTableData as SelectList, "Chọn một tùy chọn", new { @class = "form-control", @name = "IDLOAI" })
+                    @Html.ValidationMessageFor(model => model.IDLOAI, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span>*</span>
+                @Html.LabelFor(model => model.TENHANG, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TENHANG, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TENHANG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <span>*</span>
+                @Html.LabelFor(model => model.GIA, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GIA, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GIA, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.MOTA, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MOTA, "MultilineText", new { htmlAttributes = new { @class = "form-control", style = "border-radius: 10px; padding: 10px; box-sizing: border-box;border: 1px solid #CCD6E6;" } })
+                    @Html.ValidationMessageFor(model => model.MOTA, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span>*</span>
+                @Html.LabelFor(model => model.SOLUONG, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SOLUONG, new { htmlAttributes = new { @class = "form-control", @min = 1 } })
+                    @Html.ValidationMessageFor(model => model.SOLUONG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LUOTXEM, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LUOTXEM, new { htmlAttributes = new { @Value = 0, @class = "form-control", @min = 0 } })
+                    @Html.ValidationMessageFor(model => model.LUOTXEM, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <span>*</span>
+            @Html.LabelFor(model => model.ANH, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ANH, null, new { type = "file", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ANH, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(model => model.KHUYENMAI, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.KHUYENMAI, null, new { type = "number", @class = "form-control", @min = 0, @Value = 0 })
+                @Html.ValidationMessageFor(model => model.KHUYENMAI, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input onclick="return validate()" type="submit" value="Create" class="btn btn-default" />
+                    <input type="reset" value="Reset" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Back to List", "DSsanpham")
+    </div>
+</div>
+<script>
+    function validate()
+    {
+        var message_error = "";
+        var tenhang = $("#TENHANG").val();
+        var anh = $("#ANH").val();
+        var idloai = $("#SelectedMaLoai").val();
+        var gia = $("#GIA").val();
+        var soluong = $("#SOLUONG").val();
+
+        if (tenhang == "")
+        {
+            message_error = message_error + err("Tên Hàng");
+        }
+        if (anh == "") {
+            message_error = message_error + err("Ảnh");
+        }
+        if (idloai == "") {
+            message_error = message_error + err("Loại Hàng");
+        }
+        if (gia == "") {
+            message_error = message_error + err("Giá");
+        }
+        if (soluong == "") {
+            message_error = message_error + err("Số lượng");
+        }
+
+        if (message_error != "")
+        {
+            alert(message_error);
+            return false;
+        }
+        return true;
+    }
+
+    function err(tenhang)
+    {
+        return tenhang + "không được để trống. \n";
+    }
+</script>

@@ -1,0 +1,59 @@
+﻿@model project03.Models.entiy.LIENHE
+
+@{
+    ViewBag.Title = "LienHe";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+
+<h2>Liên Hệ</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <p class="lead">Hãy liên hệ với chúng tôi để biết thêm chi tiết về dịch vụ của chúng tôi.</p>
+        <p>Chúng tôi luôn sẵn sàng trả lời mọi câu hỏi của bạn và hỗ trợ bạn trong mọi vấn đề.</p>
+    </div>
+    <div class="col-lg-12">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d237955.06818737485!2d105.81081804590255!3d21.269569840778306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31350506d3c8a807%3A0xc24f3032b3c596cd!2zxJAvQzogTmfDoyAzIE5nYSB0cuG6oWkgLSBIxrBuZyBMw6JtIC0gSGnhu4dwIGjDsmEgLSBC4bqvYyBHaWFuZw!5e0!3m2!1svi!2s!4v1697984734446!5m2!1svi!2s" style="border:0;width:100%;height:450px" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div>
+@using (Html.BeginForm("LienHe", "Shop", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TEN, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TEN, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TEN, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EMAIL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TINNHAN, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TINNHAN, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TINNHAN, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Gửi" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

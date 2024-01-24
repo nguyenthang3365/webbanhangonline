@@ -1,0 +1,159 @@
+﻿@model IEnumerable<project03.Models.entiy.TINTUC>
+@{
+    ViewBag.Title = "TinTuc";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+<style>
+    /* styles.css */
+    .post {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+        .post img.avartar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .post h3 {
+            margin: 0;
+        }
+
+    .post-actions {
+        margin-top: 10px;
+    }
+</style>
+<h2>Tin Tức Mới Nhất</h2>
+<div class="content123">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="post">
+                        <div class="post-header">
+                            <img class="avartar" src="~/Content/images/about_img.jpg" alt="Ảnh đại diện">
+                            <span><b style="font-size:20px;">shop TV online</b></span>
+                            <span>@item.NGAYDANG</span>
+                        </div>
+                        <div class="post-content">
+                            <h3><b>@item.TIEUDE</b></h3>
+                            <p>
+                                @item.NOIDUNG
+                            </p>
+                            <img style="width:100%;" src="~/Content/images/tintuc/@item.ANH" />
+                        </div>
+                        <div class="post-actions">
+                            <button id="data-@item.ID" data-myvalue="@item.ID" class="btn btn-primary">Thích <span>@item.LUOTTHICH</span></button>
+                            <button id="@item.ID" class="btn btn-default binhluan" type="button" data-toggle="modal" data-target="#myModal">Bình luận</button>                        
+                            @* modal*@
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content input-container">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">bình luận</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input class="myInput" style="width:100%; height:50px;" placeholder="hãy nêu suy nghĩ của bạn" />
+                                            <div class="modal-footer">
+                                                <button type="button" class="okButton btn btn-default" data-dismiss="modal">ok</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.Action("DisplayComment", "shop", new { commentId = item.ID })
+                            @* modal*@
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>
+@if (TempData["page_tintuc"] != null)
+{
+    <div class="footer">
+        <div class="wrap">
+            <div class="section group">
+                <ul class="pagination">
+                    <li> <a href="#"><<</a> </li>
+                    @for (int i = 1; i <= int.Parse(TempData["page_tintuc"].ToString()); i++)
+                    {
+                        <li> <a href="/Shop/tintuc_page?page=@i">@i</a> </li>
+                    }
+                    <li> <a href="#">>></a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var dataId;
+    $("button").click(function (e) {
+        var myValue = $(this).attr("data-myvalue");
+        var Id = $(this).attr("id");
+        $.ajax(
+            {
+                url: "/shop/PlusLike",
+                data: { id: myValue },
+                success: function (respone) {
+                    var a = document.getElementById(Id);
+                    a.getElementsByTagName('span')[0].innerHTML = respone.soluong;
+
+                }
+
+            }
+        )
+    });
+
+    $(".binhluan").click(function () {
+        dataId = $(this).attr("id");
+    })
+
+    $(".okButton").click(function () {
+        // Lấy giá trị của thẻ input tương ứng
+        var inputValue = $(this).closest(".input-container").find(".myInput").val();
+        // Sử dụng một tên biến khác thay cho "Object"
+        var requestData = {
+            NOIDUNGBINHLUAN: inputValue,
+            ID_TIN: dataId
+        };
+
+        $.ajax({
+            url: "/shop/AddBinhluanTin",
+            data: requestData,
+            success: function (response) {
+                if (response.status == true) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "thành công",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "bạn cần đăng nhập để có thể bình luận",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        });
+        $(".myInput").val("");
+        window.location.assign('https://localhost:44360/Shop/TinTuc');
+    });
+</script>
+

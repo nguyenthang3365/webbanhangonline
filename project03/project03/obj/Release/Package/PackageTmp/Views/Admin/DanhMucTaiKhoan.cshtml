@@ -1,0 +1,95 @@
+﻿@model IEnumerable<project03.Models.entiy.TAIKHOAN>
+
+@{
+    ViewBag.Title = "DanhMucTaiKhoan";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<h2>Danh Sách Tài Khoản</h2>
+
+<p>
+    <a href="@Url.Action("CreateTaiKhoan")" class="btn btn-link">
+        <i class="fa fa-plus-square custom-icon" aria-hidden="true"></i>
+    </a>
+</p>
+<div style="height:600px;width:1400px;">
+    <table class="table table-sm table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TENTAIKHOAN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MATKHAU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SODIENTHOAI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EMAIL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DIACHI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QUYEN)
+            </th>
+            <th>Hành Động</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TENTAIKHOAN)
+                </td>
+                <td>
+                    @for (int i = 0; i < item.MATKHAU.Count(); i++)
+                    {
+                        <span>*</span>
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SODIENTHOAI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMAIL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DIACHI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QUYEN)
+                </td>
+                <td>                  
+                    <a href="@Url.Action("EditTaiKhoan", new { id = item.IDTAIKHOAN })" class="btn btn-link">
+                        <i class="fas fa-edit custom-icon"></i>
+                    </a>|
+                    <a onclick="return myConfirm()" href="@Url.Action("DeleteTaiKhoan", new { id = item.IDTAIKHOAN })" class="btn btn-link">
+                        <i class="fas fa-trash custom-icon"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@if (TempData["page_taikhoan"] != null)
+{
+    <div class="footer">
+        <div class="wrap">
+            <div class="section group">
+                <ul class="pagination">
+                    <li class="btn btn-warning"><<</li>
+                    @for (int i = 1; i <= int.Parse(TempData["page_taikhoan"].ToString()); i++)
+                    {
+
+                        <li class="btn btn-warning"> <a href="/Admin/DanhMucTaiKhoanwithpage?page=@i">@i</a> </li>
+                    }
+                    <li class="btn btn-warning">>></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

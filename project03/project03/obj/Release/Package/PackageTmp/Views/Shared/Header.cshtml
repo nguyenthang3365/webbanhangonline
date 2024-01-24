@@ -1,0 +1,103 @@
+﻿@model IEnumerable<project03.Models.entiy.LoaiHang>
+    <style>
+        ul#menu2 {
+            display: none;
+            width: 150px;
+            position: absolute;
+            top: 198px;
+            left: 230px;
+            background: black;
+            z-index: 1;
+        }
+            ul#menu2 li {
+                width: 150px;
+            }
+        li#menu1:hover ul#menu2{
+            display:block;
+           
+        }
+    </style>
+<div class="header">
+    <div style="height:150px;" class="header_top">
+        <div class="logo" style="width:15%" >
+            <a href="/shop/index"><img  src="~/Content/images/logo4.png" alt="" /></a>
+        </div>
+        <div style="margin-top:50px;" class="cart">
+            <p>
+                Welcome <b style="color:red;">@Session["name_account"]</b> to our Online Store! <span> <a href="/shop/show_card"> Cart:</a></span><div id="dd" class="wrapper-dropdown-2">
+                    @Session["sum_item_car"] item(s) - @Session["price"] --
+                    @if (Session["name_account"] != null)
+                    {
+                        <a href="/login/logout">Logout</a>
+
+                    }
+                    else
+                    {
+                        <a href="/login/index">Login</a>
+                    }
+                    <ul class="dropdown">
+
+                        <li>you have no items in your Shopping cart</li>
+                    </ul>
+                </div>
+            </p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="header_bottom">
+        <div class="menu">
+            <ul>
+                <li class="active"><a href="/shop/index">Home</a></li>
+                <li id="menu1">
+                    <a href="">Danh mục</a>
+                    <ul id="menu2">
+                        @foreach (var item in Model)
+                        {
+                            <li id="@item.MaLoai"><a href="#">@item.TenLoai</a></li>
+                        }
+                    </ul>
+                </li>
+                <li><a href="/Shop/TinTuc">Tin Tức</a></li>
+                <li><a href="/Shop/LienHe">Liên Hệ</a></li>
+                <li><a href="/Shop/DonHang">Đơn hàng</a></li>
+                <li><a href="/Shop/Thongtincanhan">Thông tin cá nhân</a></li>
+            </ul>
+        </div>
+        <div class="search_box" style="">       
+                <input style="width:255px;" id="timkiem" type="text" />
+                <input id="search" value="Tìm Kiếm" type="button">
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</div>
+
+<script>
+    $("li").click(function (e) {
+        var id = $(this).attr("id");
+        $.ajax(
+            {
+                url: "/shop/render",
+                data: { Id: id },
+                success: function (respone) {               
+                    $("div.content").html(respone);
+                }
+
+            }
+        )
+    })
+    $("input#search").click(function (e) {
+        var id = $("input#timkiem").val();
+        console.log(id);
+        $.ajax(
+            {
+                url: "/shop/search",
+                data: { item: id },
+                success: function (respone) {
+                    $("div.content").html(respone);
+                }
+
+            }
+        )
+    })
+</script>

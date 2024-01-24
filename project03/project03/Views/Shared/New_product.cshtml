@@ -1,0 +1,74 @@
+﻿@model IEnumerable<project03.Models.entiy.SANPHAM>
+<style>
+    .grid_1_of_4.images_1_of_4 {
+        height: 300px;
+    }
+</style>
+@Html.Action("slides", "Shop")
+<div style="margin-top:20px;" class="content_top">
+    <div class="heading">
+        <h3>Sản Phẩm Mới</h3>
+    </div>
+    <div class="see">
+        @* <p><a href="#">sản phẩm mới</a></p>*@
+    </div>
+    <div class="clear"></div>
+</div>
+<div style="height: 650px; overflow: hidden; " class="section group" title="preview">
+
+    @foreach (var item in Model)
+    {
+        <div style="margin-left:40px;" class="grid_1_of_4 images_1_of_4">
+            @if (item.KHUYENMAI != 0 && item.KHUYENMAI != null)
+            {
+                <img src="~/Content/images/sale.png" style="width:100px;position:absolute;top:0px;left:0px;" />
+            }
+            <a href="/shop/Detail_product?id=@item.IDSANPHAM "><img style="width:200px;height:130px;" src="~/Content/images/@item.ANH" alt="" /></a>
+            <h2>@item.TENHANG </h2>
+            <div class="price-details">
+                <div class="price-number">
+                    @if (item.KHUYENMAI == null || item.KHUYENMAI == 0)
+                    {
+                        <p>
+                            <span class="rupees">
+                                @{
+                                    double? gia = @item.GIA;
+                                    string formattedGia = gia?.ToString("N0"); // Chuyển đổi và định dạng giá
+                                }
+                                @formattedGia
+                            </span>VND
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            <span class="rupees">
+                                <strike>
+                                    @{
+                                        double? gia = @item.GIA;
+                                        string formattedGia = gia.HasValue ? gia.Value.ToString("N0") : "N/A"; // Kiểm tra và chuyển đổi giá
+                                    }
+                                    @formattedGia
+                                </strike>
+                                @{
+                                    double? gia2 = @item.KHUYENMAI;
+                                    string formattedGia2 = gia2.HasValue ? gia2.Value.ToString("N0") : "N/A"; // Kiểm tra và chuyển đổi giá khuyến mãi
+                                }
+                                @formattedGia2
+                            </span>VND
+                        </p>
+                    }
+                </div>
+                <div class="add-cart">
+                    <h4><a href="/Shop/cart?item=@item.IDSANPHAM">Add to Cart</a></h4>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<project03.Models.entiy.SANPHAM>
+@{
+    ViewBag.Title = "paginate";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+
+<div class="content_top">
+    <div class="heading">
+        <h3>New Products</h3>
+    </div>
+    <div class="see">
+        <p><a href="#">See all Products</a></p>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="section group" title="preview">
+    @foreach (var item in Model)
+    {
+        <div class="grid_1_of_4 images_1_of_4">
+            <a href="/shop/Detail_product?id=@item.IDSANPHAM"><img src="~/Content/images/@item.ANH" alt="" /></a>
+            <h2>@item.TENHANG </h2>
+            <div class="price-details">
+                <div class="price-number">
+                    <p><span class="rupees">@item.GIA</span></p>
+                </div>
+                <div class="add-cart">
+                    <h4><a href="/Shop/cart?item=@item.IDSANPHAM">Add to Cart</a></h4>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    }
+
+</div>
+@for (int i = 1; i <= ViewBag.sum; i++)
+{
+    <a href="/shop/render_product?page=@i">@i</a>
+}
+

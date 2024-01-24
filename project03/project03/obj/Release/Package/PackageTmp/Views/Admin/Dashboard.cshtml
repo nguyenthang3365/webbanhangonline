@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+<!-- End Navbar -->
+<div class="">
+    <canvas id="bigDashboardChart"></canvas>
+</div>
+<div class="content">
+    @Html.Action("ThongKe","Admin")
+
+    <div class="row">
+@*
+        @Html.Action("HopThuDen", "Admin")
+
+        @Html.Action("ThongTinTruyCap", "Admin")*@
+    </div>
+        <div class="row">
+            <div class="col-6">
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+            </div>
+            <div class="col-6">
+                <canvas id="myChart3" style="width:100%;max-width:600px"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function bieudoluottruycap() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/BanDo2", // Thay "ControllerName" bằng tên thật của controller của bạn
+                success: function (data) {
+                    // Ở đây, bạn có thể sử dụng dữ liệu trả về từ action method
+                    var xValues = data.xValues;
+                    var yValues = data.yValues;
+
+                    // Gọi hàm JavaScript khác và truyền dữ liệu vào nó (ví dụ: tạo biểu đồ)
+                    bando3(xValues, yValues);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+      
+
+        function bieudoluongkhachdathang() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/BanDo", // Thay "ControllerName" bằng tên thật của controller của bạn
+                success: function (data) {
+                    // Ở đây, bạn có thể sử dụng dữ liệu trả về từ action method
+                    var xValues = data.xValues;
+                    var yValues = data.yValues;
+
+                    // Gọi hàm JavaScript khác và truyền dữ liệu vào nó (ví dụ: tạo biểu đồ)
+                    create(xValues, yValues);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+        
+        bieudoluongkhachdathang();
+        bieudoluottruycap();
+
+        function create(x, y) {
+
+               var xValues = x;
+            var yValues = y;
+            var barColors = ["red", "green", "blue", "orange", "brown"];
+
+            new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Biểu đồ Thống kế lượng đặt hàng theo từng tháng"
+                    }
+                }
+            });
+        }
+
+
+        function bando3(x,y) {
+            const xValues = x;
+            const yValues = y;
+
+            new Chart("myChart3", {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        fill: false,
+                        lineTension: 0,
+                        backgroundColor: "red",
+                        borderColor: "green",
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{ ticks: { min: 0, max: 100 } }],
+                    },
+                    title: {
+                        display: true,
+                        text: "Biểu Đồ Thống kế lượng khách truy cập theo tháng"
+                    }
+                }
+            });
+        }
+
+     
+</script>

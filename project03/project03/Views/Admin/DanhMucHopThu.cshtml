@@ -1,0 +1,88 @@
+﻿@model IEnumerable<project03.Models.entiy.LIENHE>
+
+@{
+    ViewBag.Title = "DanhMucTinTuc";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<h2>Hộp Thư Đến</h2>
+
+<div style="height:600px;width:1400px;">
+    <table class="table table-sm table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EMAIL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TINNHAN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NGAYGUI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.XEM)
+            </th>
+            <th>Hành Động</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EMAIL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TINNHAN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NGAYGUI)
+        </td>
+        <td>
+            @if (item.XEM == null)
+            {
+                <input type="checkbox" />
+            }
+            else
+            {
+                <input type="checkbox" checked />
+            }
+
+        </td>
+        <td>
+            <a href="@Url.Action("ChiTietThu", new { id = item.ID })" class="btn btn-link">
+                <i class="fas fa-info-circle"></i>
+            </a>|
+            <a onclick="return myConfirm()" href="@Url.Action("DeleteThu", new { id = item.ID })" class="btn btn-link">
+                <i class="fas fa-trash custom-icon"></i>
+            </a>
+
+        </td>
+    </tr>
+        }
+
+    </table>
+</div>
+@if (TempData["page_hopthu_admin"] != null)
+{
+    <div class="footer">
+        <div class="wrap">
+            <div class="section group">
+                <ul class="pagination">
+                    <li class="btn btn-warning"><<</li>
+                    @for (int i = 1; i <= int.Parse(TempData["page_hopthu_admin"].ToString()); i++)
+                    {
+
+                        <li class="btn btn-warning"> <a href="/Admin/DanhMucTinTucWithPage?page=@i">@i</a> </li>
+                    }
+                    <li class="btn btn-warning">>></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

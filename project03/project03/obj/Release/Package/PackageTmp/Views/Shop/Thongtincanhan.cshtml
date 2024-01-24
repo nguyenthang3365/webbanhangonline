@@ -1,0 +1,85 @@
+﻿@model project03.Models.entiy.TAIKHOAN
+@{
+    ViewBag.Title = "Thongtincanhan";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+<style>
+    div.container {
+        margin: 0px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 >Hồ Sơ Của Tôi</h3>
+                    <p >Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+                </div>
+                <div class="card-body">
+                    <!-- Hiển thị thông tin hồ sơ -->
+                    <form id="profileForm" action="@Url.Action("Thongtincanhan", "shop")" method="post">
+                        <input type="text" hidden id="Idtaikhoan" name="IDTAIKHOAN" value="@Model.IDTAIKHOAN" >
+                        <div class="form-group">
+                            <label for="username">Tên Đăng Nhập:</label>
+                            <input type="text" class="form-control" id="username" name="TENTAIKHOAN" value="@Model.TENTAIKHOAN" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="Email" value="@Model.EMAIL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số Điện Thoại:</label>
+                            <input type="tel" class="form-control" id="phone" name="SODIENTHOAI" value="@Model.SODIENTHOAI" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa Chỉ:</label>
+                            <input type="text" class="form-control" id="address" name="DIACHI" value="@Model.DIACHI" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật Khẩu:</label>
+                            <input type="password" class="form-control" id="password" name="Password" value="********" readonly>
+                        </div>
+                        <button id="chinhsua" type="button" class="btn btn-primary" onclick="enableEdit()">Chỉnh Sửa Thông Tin</button>
+                        <button id="luu" type="submit" class="btn btn-primary" style="display: none;">Lưu Thay Đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<script>
+    function enableEdit() {
+        // Bỏ thuộc tính readonly và disabled từ các ô input
+        var al = prompt('nhập mật khẩu để đổi thông tin');
+        var empObj = {
+            IDTAIKHOAN: $('#Idtaikhoan').val(),
+            MATKHAU: al
+        };
+        $.ajax({
+            url: "/Shop/xacnhanmatkhau",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.status == true) {
+                    document.getElementById("email").removeAttribute("readonly");
+                    document.getElementById("phone").removeAttribute("readonly");
+                    document.getElementById("address").removeAttribute("readonly");
+                    document.getElementById("password").removeAttribute("readonly");
+                    // Ẩn nút "Chỉnh Sửa Thông Tin" và hiển thị nút "Lưu Thay Đổi"
+                    document.getElementById("chinhsua").style.display = "none";
+                    document.getElementById("luu").style.display = "inline-block";
+                }
+                else
+                {
+                    alert("Mật khẩu sai");
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

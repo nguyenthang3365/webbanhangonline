@@ -1,0 +1,75 @@
+﻿@model IEnumerable<project03.Models.entiy.TINTUC>
+@{
+    ViewBag.Title = "TinTuc";
+    Layout = "~/Views/Shared/index.cshtml";
+}
+<style>
+    /* styles.css */
+    .post {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+        .post img.avartar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .post h3 {
+            margin: 0;
+        }
+
+    .post-actions {
+        margin-top: 10px;
+    }
+</style>
+<h2>Tin Tức Mới Nhất</h2>
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-8 col-md-offset-2">
+                <div class="post">
+                    <div class="post-header">
+                        <img class="avartar" src="~/Content/images/about_img.jpg" alt="Ảnh đại diện">
+                        <span><b style="font-size:20px;">shop TV online</b></span>
+                        <span>@item.NGAYDANG</span>
+                    </div>
+                    <div class="post-content">
+                        <p>
+                            @item.NOIDUNG
+                        </p>
+                        <img style="width:100%;" src="~/Content/images/Slides/@item.ANH" />
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn btn-primary">Thích</button>
+                        <button class="btn btn-default">Bình luận</button>
+                        <button class="btn btn-default">Chia sẻ</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+@if (TempData["page_tintuc"] != null)
+{
+    <div class="footer">
+        <div class="wrap">
+            <div class="section group">
+                <ul class="pagination">
+                    <li> <a href="#"><<</a> </li>
+                    @for (int i = 1; i <= int.Parse(TempData["page_tintuc"].ToString()); i++)
+                    {                      
+                        <li> <a href="/Shop/tintuc_page?page=@i">@i</a> </li>
+                    }
+                    <li> <a href="#">>></a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+

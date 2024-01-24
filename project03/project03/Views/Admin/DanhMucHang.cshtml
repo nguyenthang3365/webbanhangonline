@@ -1,0 +1,43 @@
+﻿@model IEnumerable<project03.Models.entiy.LoaiHang>
+
+@{
+    ViewBag.Title = "DanhMucHang";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<h2>Danh Sách Loại Hàng</h2>
+
+<p>
+    <a href="@Url.Action("Createdanhmuc")" class="btn btn-link">
+        <i class="fa fa-plus-square custom-icon" aria-hidden="true"></i>
+    </a>
+</p>
+<table class="table table-sm table-dark" style="width:400px;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenLoai)
+        </th>
+        <th>
+            Hành Động
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenLoai)
+        </td>
+        <td>           
+            <a href="@Url.Action("Editdanhmuc", new { id = item.MaLoai })" class="btn btn-link">
+                <i class="fas fa-edit custom-icon"></i>
+            </a>|
+            <a onclick="return myConfirm()" href="@Url.Action("Deletedanhmuc", new { id = item.MaLoai })" class="btn btn-link">
+                <i class="fas fa-trash custom-icon"></i>
+            </a>
+        </td>
+    </tr>
+}
+
+</table>
+
+

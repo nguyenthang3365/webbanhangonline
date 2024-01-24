@@ -1,0 +1,80 @@
+﻿@model IEnumerable<project03.Models.entiy.TINTUC>
+
+@{
+    ViewBag.Title = "DanhMucTinTuc";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<h2>Danh Mục Tin Tức</h2>
+<p>  
+            <a href="@Url.Action("CreateTinTuc")" class="btn btn-link">
+                <i class="fa fa-plus-square custom-icon" aria-hidden="true"></i>
+            </a>    
+</p>
+<div style="height:600px;width:1400px;">
+    <table class="table table-sm table-dark">
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.ANH)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.NOIDUNG)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.TIEUDE)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.NGAYDANG)
+            </th>
+            <th scope="col">
+               Hành Động
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:10%;">
+                    <img src="~/Content/images/tintuc/@item.ANH" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NOIDUNG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TIEUDE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NGAYDANG)
+                </td>
+                <td>
+
+                    <a href="@Url.Action("EditTinTuc", new { id = item.ID })" class="btn btn-link">
+                        <i class="fas fa-edit custom-icon"></i>
+                    </a>|              
+                    <a onclick = "return myConfirm()" href="@Url.Action("DeleteTinTuc", new { id = item.ID })" class="btn btn-link">
+                        <i class="fas fa-trash custom-icon"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@if (TempData["page_TinTuc_admin"] != null)
+{
+    <div class="footer">
+        <div class="wrap">
+            <div class="section group">
+                <ul class="pagination">
+                    <li class="btn btn-warning"><<</li>
+                    @for (int i = 1; i <= int.Parse(TempData["page_TinTuc_admin"].ToString()); i++)
+                    {
+
+                        <li class="btn btn-warning"> <a href="/Admin/DanhMucTinTucWithPage?page=@i">@i</a> </li>
+                    }
+                    <li class="btn btn-warning">>></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

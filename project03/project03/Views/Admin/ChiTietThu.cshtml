@@ -1,0 +1,50 @@
+﻿@model project03.Models.entiy.LIENHE
+
+@{
+    ViewBag.Title = "ChiTietThu";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<div>
+    <h4>Chi Tiết Thư</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TEN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TINNHAN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TINNHAN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NGAYGUI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NGAYGUI)
+        </dd>
+
+    </dl>
+    @using (Html.BeginForm("checked_thu", "Admin"))
+    {
+        @Html.HiddenFor(model => model.ID)
+        <input type="submit" value="Đánh dấu là đã xem" />
+    }
+</div>

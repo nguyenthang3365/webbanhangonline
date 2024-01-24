@@ -1,0 +1,90 @@
+﻿@model project03.Models.entiy.TINTUC
+
+@{
+    ViewBag.Title = "CreateTinTuc";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+
+<h2>Đăng Tin Tức</h2>
+
+<div class="ml-5">
+    @using (Html.BeginForm("CreateTinTuc", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>TINTUC</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <span>*</span>
+            @Html.LabelFor(model => model.ANH, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ANH, null, new { type = "file", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ANH, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <span>*</span>
+                @Html.LabelFor(model => model.NOIDUNG, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NOIDUNG, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span>*</span>
+                @Html.LabelFor(model => model.TIEUDE, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TIEUDE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TIEUDE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input onclick="return validate()" type="submit" value="Create" class="btn btn-default" />
+                    <input type="reset" value="Reset" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "DanhMucTinTuc")
+    </div>
+</div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+<script>
+    function validate()
+    {
+        var message_error = "";
+        var anh = $("#ANH").val();
+        var noidung = $("#NOIDUNG").val();
+        var tieude = $("#TIEUDE").val();
+   
+        if (anh == "")
+        {
+            message_error = message_error + err("Ảnh");
+        }
+        if (noidung == "") {
+            message_error = message_error + err("Nội dung");
+        }
+        if (tieude == "") {
+            message_error = message_error + err("Tiêu đề");
+        }
+        if (message_error != "")
+        {
+            alert(message_error);
+            return false;
+        }
+        return true;
+    }
+
+    function err(tenhang)
+    {
+        return tenhang + "không được để trống. \n";
+    }
+</script>

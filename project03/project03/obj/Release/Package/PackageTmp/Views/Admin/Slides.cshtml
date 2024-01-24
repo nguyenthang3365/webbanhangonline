@@ -1,0 +1,87 @@
+﻿@model IEnumerable<project03.Models.entiy.SLIDES>
+
+@{
+    ViewBag.Title = "Slides";
+    Layout = "~/Views/Shared/Layoutadmin.cshtml";
+}
+<style>
+    tr{
+        margin-top:10px;
+    }
+</style>
+<h2>Slides</h2>
+
+<p>
+    <a href="@Url.Action("CreateSlides")" class="btn btn-link">
+        <i class="fa fa-plus-square custom-icon" aria-hidden="true"></i>
+    </a>
+</p>
+<div style="width:800px;height:600px" >
+    <table class="text-center table table-sm table-dark">
+        <tr>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.ANH)
+            </th>
+            <th class="text-center" scope="col">
+                @Html.DisplayNameFor(model => model.TIEUDE)
+            </th>
+            <th class="text-center" scope="col">
+                Hành Động
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:15%;">
+                    <img src="~/Content/images/Slides/@item.ANH" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TIEUDE)
+                </td>
+                <td>
+                    
+                    <a href="@Url.Action("EditSlides", new { id = item.ID })" class="btn btn-link">
+                        <i class="fas fa-edit custom-icon"></i>
+                    </a>|
+                    <a onclick="return myConfirm()" href="@Url.Action("DeleteSlides", new { id = item.ID })" class="btn btn-link">
+                        <i class="fas fa-trash custom-icon"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+    @if (TempData["page_slide"] != null)
+    {
+        <div class="footer">
+            <div class="wrap">
+                <div class="section group">
+                    <ul class="pagination">
+                        <li class="btn btn-warning"><<</li>
+                        @for (int i = 1; i <= int.Parse(TempData["page_slide"].ToString()); i++)
+                        {
+
+                            <li class="btn btn-warning"> <a href="/Admin/DanhMucSlidesPage?page=@i">@i</a> </li>
+                        }
+                        <li class="btn btn-warning">>></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+
+<script>
+  
+    function myConfirm() {
+        var result = confirm("bạn có muốn tiếp tục xóa?");
+        if (result == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

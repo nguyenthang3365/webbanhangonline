@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Free Home Shoppe Website Template | Home :: w3layouts</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @Styles.Render("~/Content/mycss")
+    @Scripts.Render("~/Content/myscript")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("Scripts", required: false)
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/sweetalert.js"></script>
+
+    <!-- Bootstrap CSS -->
+</head>
+<body>
+    <!-- Begin Wrap -->
+    <div class="wrap">
+        <!-- Begin Header -->
+        @Html.Action("get_Header", "Shop")
+        <!-- End Header -->
+        <!-- Begin Main -->
+        <div class="main">
+            @RenderBody()
+        </div>
+        <!-- End Main -->
+    </div>
+    <!-- End Wrap -->
+    <!-- Begin Footer -->
+    @Html.Partial("Footer")
+    <!-- End Footer -->
+    <script>
+
+        function a() {
+            Swal.fire({
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success"
+            });
+        }
+    </script>
+</body>
+</html>
+

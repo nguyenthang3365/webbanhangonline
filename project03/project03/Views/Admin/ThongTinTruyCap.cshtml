@@ -1,0 +1,47 @@
+﻿@model IEnumerable<project03.Models.entiy.TRUYCAP>
+@{
+
+    ViewBag.Title = null;
+    Layout = null;
+}
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-category">Địa điểm truy cập</h5>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                 
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                            <tr>
+                                <td>
+                                    @item.THOIGIAN
+                                </td>
+                                <td>
+                                    @item.DIACHITRUYCAP.Substring(0, item.DIACHITRUYCAP.IndexOf("-"))
+
+                                </td>
+                                <td>
+                                    @item.DIACHITRUYCAP.Substring(item.DIACHITRUYCAP.IndexOf("-") + 1, item.DIACHITRUYCAP.IndexOf("-") + 3)
+                                </td>
+                                <td class="text-right">
+                                    @item.DIACHITRUYCAP
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

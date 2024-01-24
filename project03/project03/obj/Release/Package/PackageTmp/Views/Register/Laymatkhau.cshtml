@@ -1,0 +1,97 @@
+﻿@model project03.Models.entiy.TAIKHOAN
+
+@{
+    ViewBag.Title = "đăng nhập";
+    Layout = "~/Views/Shared/index2.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: url(../../Content/images/anhnen/anhnenlogin.png);
+            background-size: cover;
+        }
+
+        .container {
+            width: 300px;
+            margin-top: 200px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lấy lại mật khẩu</h2>
+        <span class="text-danger">vui lòng hãy điền thông tin đã đăng kí trước đó</span>
+        @using (Html.BeginForm("laymatkhau", "Register", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="TENTAIKHOAN">TÊN TÀI KHOẢN :</label>
+                        @Html.EditorFor(model => model.TENTAIKHOAN, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TENTAIKHOAN, "", new { @class = "text-danger" })                  
+                </div>       
+                <div class="form-group">
+                    <label for="TENTAIKHOAN">Email:</label>
+                        @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+                   
+                </div>
+
+                <div class="form-group">                   
+                        <input type="submit" value="Gửi" class="btn btn-default" />                   
+                </div>
+            </div>
+        }
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</body>
+</html>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

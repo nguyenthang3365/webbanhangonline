@@ -1,0 +1,11 @@
+﻿@model IEnumerable < project03.Models.entiy.BINHLUAN_TIN>
+@{
+    ViewBag.Title = "DisplayComment";
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+  <div style=" margin-top:5px; background: #EBEDF0; border-radius: 5px; width: 30%; border: 1px solid black; height: 40px; "><p><b>@item.TENTAIKHOAN</b>@item.NOIDUNGBINHLUAN</p></div>
+}
+

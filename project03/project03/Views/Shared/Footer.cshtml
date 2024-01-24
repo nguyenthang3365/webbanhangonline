@@ -1,0 +1,67 @@
+﻿@if (TempData["page_sanphamchinh"] != null)
+{
+<div class="footer">
+    <div class="wrap">
+        <div class="section group">
+            <ul class="pagination">
+                <li value=""> <button class="btn btn-success"><<</button></li>
+                @for (int i = 1; i <= int.Parse(TempData["page_sanphamchinh"].ToString()); i++)
+                {
+                    <li value="@i"> <button class="btn btn-success">@i</button></li>
+
+                }
+                <li value=""> <button class="btn btn-success">>></button></li>
+            </ul>
+        </div>
+    </div>
+</div>
+}
+
+<div class="footer">
+    <div class="wrap">
+        <div class="section group">
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>Địa chỉ</h4>
+                <ul>
+                    <li>Ngã 3 nga trai ,Hương lâm,Hiệp hòa, Bắc giang,Viêt Nam</li>                    
+                </ul>
+            </div>
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>Hoạt động</h4>
+                <ul>
+                    <li>                       
+                        Mon–Sat: 8:00 AM–6:00 PM
+                        Sunday: Closed                      
+                    </li>                   
+                </ul>
+            </div>
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>Số điện thoại</h4>
+                <ul>
+                    <li>0375152837</li>               
+                </ul>
+            </div>
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>Email</h4>
+                <ul>                  
+                    <li>nguyenvanthangtn2K000123@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("li").click(function (e) {
+        var id = $(this).attr("value");
+        $.ajax(
+            {
+                url: "/shop/render_feature1",
+                data: { page: id },
+                success: function (respone) {
+                    $("div.content_feature").html(respone);
+                }
+
+            }
+        )
+    })
+</script>
